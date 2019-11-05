@@ -13,6 +13,7 @@ class PDFReader:
         return self.parsed['content']
 
 
-reader = PDFReader('test.pdf')
+reader = PDFReader('../test/bias.pdf')
 title = reader.title()
 content = reader.content()
+print(title)
