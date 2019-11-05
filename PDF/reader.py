@@ -1,4 +1,5 @@
 import tika
+tika.initVM()
 from tika import parser
 
 
