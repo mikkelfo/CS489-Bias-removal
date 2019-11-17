@@ -6,7 +6,7 @@ from PIL import Image, ImageColor
 doc = fitz.open("bias.pdf")
 page = doc[0]
 
-text = "Andrew"
+text = "Andrew Tomkins"
 text_instances = page.searchFor(text)
 
 # HIGHLIGHT
