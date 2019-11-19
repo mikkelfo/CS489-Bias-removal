@@ -31,6 +31,7 @@ import fitz
 import wx
 import os
 
+filepath = None
 try:
     from PageFormat import FindFit       # may have paper format finder ... 
     do_paper = True
@@ -60,18 +61,21 @@ def getint(v):
 # abbreviations to get rid of those long pesky names ...
 defPos = wx.DefaultPosition
 defSiz = wx.DefaultSize
-khaki  = wx.Colour(240, 230, 140)
-zoom   = 1.2                        # zoom factor of display
+khaki  = wx.Colour(255, 255, 255)
+zoom   = 1.3                    # zoom factor of display
 #==============================================================================
 # Define our dialog as a subclass of wx.Dialog.
 # Only special thing is, that we are being invoked with a filename ...
 #==============================================================================
+
 class PDFdisplay (wx.Dialog):
+
+   
 
     def __init__(self, parent, filename):
         wx.Dialog.__init__ (self, parent, id = wx.ID_ANY,
-            title = u"Display with PyMuPDF: ",
-            pos = defPos, size = defSiz,
+            title = u"Bias Removal: ",
+            pos = defPos, size = (defSiz),
             style = wx.CAPTION|wx.CLOSE_BOX|wx.DEFAULT_DIALOG_STYLE)
 
         #======================================================================
@@ -81,7 +85,8 @@ class PDFdisplay (wx.Dialog):
             self.SetIcon(ico_pdf.img.GetIcon())      # set a screen icon
         self.SetTitle(self.Title + filename)
         self.SetBackgroundColour(khaki)
-
+        global filepath
+        filepath = filename
         #======================================================================
         # open the document with MuPDF when dialog gets created
         #======================================================================
@@ -129,19 +134,20 @@ class PDFdisplay (wx.Dialog):
         #======================================================================
         szr20 = wx.BoxSizer(wx.HORIZONTAL)
 
-        #======================================================================
-        # forward button
-        #======================================================================
-        self.ButtonNext = wx.Button(self, wx.ID_ANY, u"forw",
-                           defPos, defSiz, wx.BU_EXACTFIT)
-        szr20.Add(self.ButtonNext, 0, wx.ALL, 5)
-
+        
         #======================================================================
         # backward button
         #======================================================================
-        self.ButtonPrevious = wx.Button(self, wx.ID_ANY, u"back",
+        self.ButtonPrevious = wx.Button(self, wx.ID_ANY, u"Previous page",
                            defPos, defSiz, wx.BU_EXACTFIT)
         szr20.Add(self.ButtonPrevious, 0, wx.ALL, 5)
+
+#======================================================================
+        # forward button
+        #======================================================================
+        self.ButtonNext = wx.Button(self, wx.ID_ANY, u"Next page",
+                           defPos, defSiz, wx.BU_EXACTFIT)
+        szr20.Add(self.ButtonNext, 0, wx.ALL, 5)
 
         #======================================================================
         # text field for entering a target page. wx.TE_PROCESS_ENTER is
@@ -167,8 +173,12 @@ class PDFdisplay (wx.Dialog):
 
         self.paperform = wx.StaticText(self, wx.ID_ANY,
                               "", defPos, defSiz, 0)
-        szr20.Add(self.paperform, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5)
+        #szr20.Add(self.paperform, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5)
 
+
+        self.savePaper = wx.Button(self, wx.ID_ANY, u"Save Paper",
+                           defPos, defSiz, wx.BU_EXACTFIT)
+        szr20.Add(self.savePaper, 0, wx.ALL, 5)
         #======================================================================
         # sizer ready, represents top dialog line
         #======================================================================
@@ -199,9 +209,30 @@ class PDFdisplay (wx.Dialog):
         self.ButtonNext.Bind(wx.EVT_BUTTON, self.NextPage)
         self.ButtonPrevious.Bind(wx.EVT_BUTTON, self.PreviousPage)
         self.TextToPage.Bind(wx.EVT_TEXT_ENTER, self.GotoPage)
+        self.savePaper.Bind(wx.EVT_BUTTON, self.OnSaveAs)
         self.PDFimage.Bind(wx.EVT_MOUSEWHEEL, self.OnMouseWheel)
         self.PDFimage.Bind(wx.EVT_MOTION, self.move_mouse)
         self.PDFimage.Bind(wx.EVT_LEFT_DOWN, self.OnLeftDown)
+
+
+    def OnSaveAs(self, event):
+
+      with wx.FileDialog(self, "Save PDF file", wildcard="PDF files (*.pdf)|*.pdf",
+                       style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT) as fileDialog:
+
+        if fileDialog.ShowModal() == wx.ID_CANCEL:
+            return     # the user changed their mind
+
+        # save the current contents in the file
+        pathname = fileDialog.GetPath()
+        global filepath
+        try:
+            with open(pathname, 'w') as file:
+                doc = fitz.open(filepath)
+                doc.save(pathname, garbage=4, deflate=True, clean=True)
+        except IOError:
+            wx.LogError("Cannot save current data in file '%s'." % pathname)
+
 
     def __del__(self):
         pass
@@ -302,7 +333,7 @@ class PDFdisplay (wx.Dialog):
         self.TextToPage.Value = str(page)        # make sure it's on the screen
         self.NeuesImage(page)
         event.Skip()
-
+   
 #==============================================================================
 # Read / render a PDF page. Parameters are: pdf = document, page = page#
 #==============================================================================
@@ -357,7 +388,7 @@ class PDFdisplay (wx.Dialog):
         if do_paper:
             paper = FindFit(page.bound().x1, page.bound().y1)
         else:
-            paper = "not implemented"
+            paper = ""
         self.paperform.Label = "Page format: " + paper
         if self.links.Value:
             self.current_lnks = page.getLinks()
@@ -383,6 +414,9 @@ class PDFdisplay (wx.Dialog):
                 pw = None
                 dlg.SetTitle("Wrong password. Enter correct one or cancel.")
         return
+
+
+   
 """
 #==============================================================================
 # main program

@@ -24,6 +24,8 @@ class WriteFile() :
                         "black", "L"), fill=ImageColor.getcolor("black", "L"), overlay=True)
         return doc
 
+    
+
     """
     target_name_list = ["Andrew ", "Tomkins ",
                         "Min ", "Zhang", "William ", "D. ", "Heavlin"]
