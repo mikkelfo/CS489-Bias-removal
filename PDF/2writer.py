@@ -5,9 +5,14 @@ from PIL import Image, ImageColor
 def Marker(filename, target_name_list):
     doc = fitz.open(filename)
     for page in doc:
+        # print(page.getText())
         for target_name in target_name_list:
-            target_name = " "+target_name+" "
-            text_instances = page.searchFor(target_name)
+            target = target_name
+            text_instances = page.searchFor(target)
+            print(page.getTextPage().extractText(text_instances[0]))
+            #text_instances = []
+            #target = target_name+","
+            #text_instances = text_instances + page.searchFor(target)
 
             # HIGHLIGHT
             for inst in text_instances:
