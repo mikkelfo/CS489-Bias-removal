@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 
+# pip install --user --requirement requirements.txt
+
 
 import wx
 import writer2
@@ -43,7 +45,8 @@ class BiasRemovalGUI(wx.Frame):
         hbox3 = wx.BoxSizer(wx.HORIZONTAL) 
 		
         self.t3 = wx.TextCtrl(panel,size = (1000,600),style = wx.TE_MULTILINE) 
-		
+        self.t3.SetBackgroundColour ((255,255,255))
+        self.t3.SetForegroundColour((0,0,0))
         hbox3.Add(self.t3,1,wx.EXPAND|wx.ALIGN_LEFT|wx.ALL,5) 
         vbox.Add(hbox3) 
 
