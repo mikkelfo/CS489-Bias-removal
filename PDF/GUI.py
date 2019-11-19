@@ -9,7 +9,7 @@ import wx
 import writer2
 import reader2
 import fitz #pip install --upgrade pymupdf /PDF
-
+import pdfviewer
 
 class BiasRemovalGUI(wx.Frame):
 
@@ -89,10 +89,13 @@ class BiasRemovalGUI(wx.Frame):
                   
                     doc = writer.Marker(pathname, target_name_list)
                     doc.save("output.pdf", garbage=4, deflate=True, clean=True)
-                   
+                    dlg = pdfviewer.PDFdisplay(wx.Panel(self), "output.pdf")
+                    rc = dlg.ShowModal()
                     text = reader.read(pathname)
-                    self.t3.AppendText(text)
+                   # self.t3.AppendText(text)
  
+
+
             except IOError:
                 wx.LogError("Cannot open file '%s'." % newfile)
 
