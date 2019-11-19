@@ -1,5 +1,7 @@
-import fitz
-from PIL import Image, ImageColor
+
+
+import fitz #pip install --upgrade pymupdf /PDF
+from PIL import Image, ImageColor #pip install Pillow / Image library
 
 
 def Marker(filename, target_name_list):
@@ -25,3 +27,4 @@ target_name_list = ["Andrew", "Tomkins",
                     "Min", "Zhang", "William", "D.", "Heavlin"]
 doc = Marker("./bias.pdf", target_name_list)
 doc.save("output.pdf", garbage=4, deflate=True, clean=True)
+
