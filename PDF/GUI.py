@@ -6,8 +6,8 @@
 
 
 import wx
-import writer2
-import reader2
+import Writer
+import Reader
 import fitz #pip install --upgrade pymupdf /PDF
 import pdfviewer
 
@@ -81,14 +81,13 @@ class BiasRemovalGUI(wx.Frame):
             pathname = fileDialog.GetPath()
             try:
                 with open(pathname, 'r') as file:
-                    writer = writer2.WriteFile()
-                    reader = reader2.ReadFile()
-                    target_name_list = ["Andrew ", "Tomkins",
-                        "Min ", "Zhang", "William ", " D.", "Heavlin" ]
+                    writer = Writer.WriteFile()
+                    reader = Reader.ReadFile()
+                    target_name_list = ["Andrew", "Tomkins", "Min", "Zhang", "William", "D.", "Heavlin"]
+
 
                   
-                    doc = writer.Marker(pathname, target_name_list)
-                    doc.save("output.pdf", garbage=4, deflate=True, clean=True)
+                    doc = writer.auto_processing(pathname,target_name_list)
                     dlg = pdfviewer.PDFdisplay(wx.Panel(self), "output.pdf")
                     rc = dlg.ShowModal()
                     text = reader.read(pathname)
