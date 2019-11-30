@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<head>
+<script src='popup.js'></script>
+
+
+</head>
+<body>
+<style>
+  body{
+    width: 500px;
+    text-align: center;
+    font-size:medium;
+  }
+  #download1 {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+  }
+</style>
+<h3>Bias Removal CS489 </h3>
+
+<br/>
+<input hidden type=text id=filter placeholder=Filter>
+<input hidden  type=checkbox id=regex>
+<label hidden for=regex>Regex</label><br>
+<button hidden id=download0>Download All!</button>
+<table id=links style = "text-align : left; font-size : small ">
+  <tr>
+    <th><input hidden type=checkbox checked id=toggle_all></th>
+    <th align=left>URL</th>
+  </tr>
+</table>
+<button id=download1 style : "width : 100%">Apply on this pdf</button>
+</body>
+</html>
