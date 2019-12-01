@@ -51,10 +51,15 @@ function downloadCheckedLinks() {
       function (response) {
         
       });
-      chrome.downloads.download({url: visibleLinks[i]},
+     /* chrome.downloads.download({url: visibleLinks[i]},
                                              function(id) {
-      });
+      });*/
 
+
+      link = visibleLinks[i].replace(/\//g, 'SLASH')
+      alert(link)
+      var newURL = "http://quentinpiot.pythonanywhere.com/biasP/" + link;
+      chrome.tabs.create({ url: newURL });
     }
   }
   window.close();
@@ -63,7 +68,7 @@ function downloadCheckedLinks() {
 // Re-filter allLinks into visibleLinks and reshow visibleLinks.
 function filterLinks() {
   //var filterValue = document.getElementById('filter').value;
-  var filterValue ="^.*\.(pdf|PDF)$"
+  var filterValue ="^.*\\.pdf$"
   if (filterValue) { //document.getElementById('regex').checked
     visibleLinks = allLinks.filter(function(link) {
       return link.match(filterValue);

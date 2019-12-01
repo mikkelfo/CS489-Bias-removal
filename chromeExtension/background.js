@@ -7,11 +7,14 @@
         let r = Math.floor(Math.random() * 1000).toString()
        
         if(downloadedFromScript){
-        name = r + downloadItem.id.toString() + downloadItem.filename;
-        suggest({filename: "bias/"+name, conflictAction: "overwrite" });
-        urlF = downloadItem.filename;
-        alert(urlF);
-        downloadedFromScript = false;
+        // name = r + downloadItem.id.toString() + downloadItem.filename;
+        // suggest({filename: "bias/"+name, conflictAction: "overwrite" });
+        // urlF = downloadItem.filename;
+        // alert(urlF);
+        // downloadedFromScript = false;
+
+        
+
     }
       });
 
