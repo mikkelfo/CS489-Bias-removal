@@ -1,10 +1,8 @@
 # importing required modules 
 import fitz #pip install --upgrade pymupdf /PDF
 
-class ReadFile() :
-
-    def read(self, filename) : 
-      
+class ReadFile:
+    def read(self, filename):
         doc = fitz.open(filename)
         index = 1
         text = ""

@@ -4,12 +4,7 @@ import fitz #pip install --upgrade pymupdf /PDF
 from PIL import Image, ImageColor #pip install Pillow / Image library
 
 
-class WriteFile() :
-
-
-    
-
-
+class WriteFile :
     def marker(self, filename, target_name_list):
         annote_list = ["a", "b", "c", "d", "e", "f", "g"]
         changed = False
@@ -32,7 +27,6 @@ class WriteFile() :
                                     "black", "L"), fill=ImageColor.getcolor("black", "L"), overlay=True)
         return [changed, doc]
 
-
     def auto_processing(self, filename, target_name_list):
         #####################################################
         #               Display
@@ -52,10 +46,6 @@ class WriteFile() :
         if new_doc:
             doc.save("output.pdf")
         else:
-            print(("Words not found, do not save new file."))
+            print("Words not found, do not save new file.")
 
-
-    #target_name_list = ["Andrew", "Tomkins",
-    #                    "Min", "Zhang", "William", "D.", "Heavlin"]
-    #auto_processing(target_name_list)
 
