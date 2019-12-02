@@ -27,10 +27,10 @@ def Marker(doc, target_name_list):
                             rectangle = fitz.Rect(word[:4])
                             page.drawRect(rectangle, color=col,
                                           fill=col, overlay=True)
-    return [changed, doc]
+    return changed
 
 
-def Replace(doc, target_name_list):
+def Replace(doc, target_name_list, type_name):
     black = fitz.utils.getColor("black")
     white = fitz.utils.getColor("white")
     changed = False
@@ -45,15 +45,12 @@ def Replace(doc, target_name_list):
                                   fill=white, overlay=True)
                     result = -1
                     size = 8
-                    print(rectangle.)
                     while(result < 0):
                         result = page.insertTextbox(
-                            rectangle, "GG", expandtabs=size, fill=black, overlay=True)
+                            rectangle, type_name+" "+str(target_name_list.index(target)+1), fontsize=size, expandtabs=8, fill=black, overlay=True)
                         size -= 1
-                        print("["+str(size)+"]")
-
                         if size == 0:
-                            print("This is re "+str(result)+" "+target)
+                            print("failed to replace")
                             break
 
                 elif target in word[4]:
@@ -63,16 +60,30 @@ def Replace(doc, target_name_list):
                             rectangle = fitz.Rect(word[:4])
                             page.drawRect(rectangle, color=white,
                                           fill=white, overlay=True)
-                            page.insertTextbox(
-                                rectangle, "AAA", fill=black, overlay=True)
+                            result = -1
+                            size = 8
+                            while(result < 0):
+                                result = page.insertTextbox(
+                                    rectangle, type_name+" "+str(target_name_list.index(target)+1), fontsize=size, expandtabs=8, fill=black, overlay=True)
+                                size -= 1
+                                if size == 0:
+                                    print("failed to replace")
+                                    break
                         elif annote+target in word[4]:
                             changed = True
                             rectangle = fitz.Rect(word[:4])
                             page.drawRect(rectangle, color=white,
                                           fill=white, overlay=True)
-                            page.insertTextbox(
-                                rectangle, "buffer",  fontname="helv", expandtabs=8, fill=black, overlay=True)
-    return [changed, doc]
+                            result = -1
+                            size = 8
+                            while(result < 0):
+                                result = page.insertTextbox(
+                                    rectangle, type_name+" "+str(target_name_list.index(target)+1), fontsize=size, expandtabs=8, fill=black, overlay=True)
+                                size -= 1
+                                if size == 0:
+                                    print("failed to replace")
+                                    break
+    return changed
 
 
 def auto_processing(target_name_list):
@@ -87,7 +98,7 @@ def auto_processing(target_name_list):
     #               Marking
     #####################################################
     doc = fitz.open("./bias.pdf")
-    [new_doc, doc] = Replace(doc, target_name_list)
+    new_doc = Replace(doc, target_name_list, "Person")
 
     #####################################################
     #               Save File
