@@ -1,4 +1,4 @@
-import en_core_web_lg
+import en_core_web_sm
 import fitz     # pip install --upgrade pymupdf
 
 def read(filename):
@@ -27,7 +27,7 @@ def blocks(filename):
     return result
 
 def process_blocks(blocks):
-    nlp = en_core_web_lg.load()
+    nlp = en_core_web_sm.load()
     result = {}
     for lines in blocks:
         for text in lines.splitlines():

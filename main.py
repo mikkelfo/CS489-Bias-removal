@@ -1,15 +1,11 @@
-import en_core_web_lg
-
 from PDF import Reader
 from PDF import Marker
 from NLP import preprocess
 import fitz
 
-nlp = en_core_web_lg.load()
-
 def main(file):
     blocks = Reader.blocks(file)
-    ents = Reader.process_blocks(blocks, nlp)
+    ents = Reader.process_blocks(blocks)
 
     doc = fitz.open(file)
 
@@ -18,14 +14,19 @@ def main(file):
     emails = preprocess.find_emails(text)
     multi_email = preprocess.find_multiple_emails(text)
 
-    Marker.Replace(doc, ents['PERSON'], "Person")
-    Marker.Replace(doc, ents['ORG'], "Org")
-    Marker.Replace(doc, emails, "email")
-    Marker.Replace(doc, multi_email, "multiple@ ")
+    if ents['PERSON']:
+        Marker.Replace(doc, ents['PERSON'], "Person")
+    if ents['ORG']:
+        Marker.Replace(doc, ents['ORG'], "Org")
+    if emails:
+        Marker.Replace(doc, emails, "email")
+    if multi_email:
+        Marker.Replace(doc, multi_email, "multiple@ ")
 
-    doc.save(file[:-4] + "_edited" + file[-4:])
+    doc.save("output.pdf")
+    #doc.save(file[:-4] + "_edited" + file[-4:])
 
 
-file = "test/acmtest3.pdf"
+file = "test/bias.pdf"
 main(file)
 

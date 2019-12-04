@@ -6,13 +6,6 @@ def normalize(text):
 
     return text
 
-def ents(text, nlp):
-    text = normalize(text)
-    return nlp(text).ents
-
-def extract(entities, target):
-    return [x for x in entities if x.label_ == target]
-
 def find_emails(text):
     return re.findall(r'[\w\.-]+@[\w\.-]+\.\w+', text)
 
