@@ -2,7 +2,7 @@ import en_core_web_lg
 import re
 
 def normalize(text):
-    text = text.lower() # TODO: Should we do this?
+    text = text.lower()     # TODO: Should we do this?
     text = text.strip()
 
     return text

@@ -3,7 +3,6 @@ import fitz
 def Replace(doc, target_name_list, type_name):
     black = fitz.utils.getColor("black")
     white = fitz.utils.getColor("white")
-    changed = False
     for page in doc:
         for target in target_name_list:
             touch_list = page.searchFor(target)
@@ -21,4 +20,3 @@ def Replace(doc, target_name_list, type_name):
                     if size == 0:
                         print("failed to replace")
                         break
-    return changed
