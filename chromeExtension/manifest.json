@@ -4,7 +4,19 @@
   "description": "An extension to remove bias when reading research papers",
   "minimum_chrome_version": "16.0.884",
   "permissions": ["downloads", "<all_urls>", "activeTab", "tabs", "*://*.someUrlMatch.xyz/*/*",  "https://ajax.googleapis.com/"],
-  
+
+  "content_scripts": [
+    {
+      "run_at" : "document_end",
+      "matches": ["https://dl.acm.org/*"],
+      "js": ["dlacm.js"]
+    },
+    {
+      "run_at" : "document_end",
+      "matches": ["https://ieeexplore.ieee.org/*"],
+      "js": ["ieee.js"]
+    }
+  ],
 
   "background": {
     "scripts": ["background.js"],
