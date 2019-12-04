@@ -1,4 +1,3 @@
-import en_core_web_lg
 import re
 
 def normalize(text):
@@ -7,8 +6,7 @@ def normalize(text):
 
     return text
 
-def ents(text):
-    nlp = en_core_web_lg.load()
+def ents(text, nlp):
     text = normalize(text)
     return nlp(text).ents
 

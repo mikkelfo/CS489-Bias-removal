@@ -1,11 +1,15 @@
+import en_core_web_lg
+
 from PDF import Reader
 from PDF import Marker
 from NLP import preprocess
 import fitz
 
+nlp = en_core_web_lg.load()
+
 def main(file):
     blocks = Reader.blocks(file)
-    ents = Reader.process_blocks(blocks)
+    ents = Reader.process_blocks(blocks, nlp)
 
     doc = fitz.open(file)
 
