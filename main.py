@@ -14,10 +14,12 @@ def main(file):
     emails = preprocess.find_emails(text)
     multi_email = preprocess.find_multiple_emails(text)
 
-    if ents['PERSON']:
+    if 'PERSON' in ents:
         Marker.Replace(doc, ents['PERSON'], "Person")
-    if ents['ORG']:
+    if 'ORG' in ents:
         Marker.Replace(doc, ents['ORG'], "Org")
+    if 'GPE' in ents:
+        Marker.Replace(doc, ents['GPE'], "Location")
     if emails:
         Marker.Replace(doc, emails, "email")
     if multi_email:
@@ -27,6 +29,6 @@ def main(file):
     #doc.save(file[:-4] + "_edited" + file[-4:])
 
 
-file = "test/bias.pdf"
+file = "test/mikk3.pdf"
 main(file)
 
