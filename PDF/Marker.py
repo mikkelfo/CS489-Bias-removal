@@ -1,130 +1,24 @@
-import sys
 import fitz
-
-annote_list = ["a", "b", "c", "d", "e", "f", "g"]
-
-
-def Marker(doc, target_name_list):
-    col = fitz.utils.getColor("white")
-    changed = False
-    for page in doc:
-        wordlist = page.getTextWords()
-        for word in wordlist:
-            for target in target_name_list:
-                if target in word:
-                    changed = True
-                    rectangle = fitz.Rect(word[:4])
-                    page.drawRect(rectangle, color=col, fill=col, overlay=True)
-                elif target in word[4]:
-                    for annote in annote_list:
-                        if target+annote in word[4]:
-                            changed = True
-                            rectangle = fitz.Rect(word[:4])
-                            page.drawRect(rectangle, color=col,
-                                          fill=col, overlay=True)
-                        elif annote+target in word[4]:
-                            changed = True
-                            rectangle = fitz.Rect(word[:4])
-                            page.drawRect(rectangle, color=col,
-                                          fill=col, overlay=True)
-    return changed
-
 
 def Replace(doc, target_name_list, type_name):
     black = fitz.utils.getColor("black")
     white = fitz.utils.getColor("white")
     changed = False
     for page in doc:
-        wordlist = page.getTextWords()
-        for word in wordlist:
-            for target in target_name_list:
-                splits = target.split()
-                for piece in splits:
-                    if piece in word:
-                        changed = True
-                        rectangle = fitz.Rect(word[:4])
-                        page.drawRect(rectangle, color=white,
-                                      fill=white, overlay=True)
-                        result = -1
-                        size = 8
-                        while(result < 0):
-                            result = page.insertTextbox(
-                                rectangle, type_name+" "+str(target_name_list.index(target)+1), fontsize=size, expandtabs=8, fill=black, overlay=True)
-                            size -= 1
-                            if size == 0:
-                                print("failed to replace")
-                                break
-
-                    elif piece in word[4]:
-                        for annote in annote_list:
-                            if piece+annote in word[4]:
-                                changed = True
-                                rectangle = fitz.Rect(word[:4])
-                                page.drawRect(rectangle, color=white,
-                                              fill=white, overlay=True)
-                                result = -1
-                                size = 8
-                                while(result < 0):
-                                    result = page.insertTextbox(
-                                        rectangle, type_name+" "+str(target_name_list.index(target)+1), fontsize=size, expandtabs=8, fill=black, overlay=True)
-                                    size -= 1
-                                    if size == 0:
-                                        print("failed to replace")
-                                        break
-                            elif annote+piece in word[4]:
-                                changed = True
-                                rectangle = fitz.Rect(word[:4])
-                                page.drawRect(rectangle, color=white,
-                                              fill=white, overlay=True)
-                                result = -1
-                                size = 8
-                                while(result < 0):
-                                    result = page.insertTextbox(
-                                        rectangle, type_name+" "+str(target_name_list.index(target)+1), fontsize=size, expandtabs=8, fill=black, overlay=True)
-                                    size -= 1
-                                    if size == 0:
-                                        print("failed to replace")
-                                        break
         for target in target_name_list:
             touch_list = page.searchFor(target)
             for touch in touch_list:
-                page.drawRect(touch, color=white,
-                              fill=white, overlay=True)
+                if abs(touch[0] - touch[2]) < 10:
+                    break
+                page.drawRect(touch, color=black,
+                              fill=black, overlay=True)
                 result = -1
                 size = 8
                 while(result < 0):
                     result = page.insertTextbox(
-                        touch, type_name+" "+str(target_name_list.index(target)+1), fontsize=size, expandtabs=8, fill=black, overlay=True)
+                        touch, type_name+" "+str(target_name_list.index(target)+1), fontsize=size, expandtabs=8, fill=white, overlay=True)
                     size -= 1
                     if size == 0:
                         print("failed to replace")
                         break
     return changed
-
-
-def auto_processing(target_name_list):
-    #####################################################
-    #               Display
-    #####################################################
-    print("Searching for the following words in document")
-    for target in target_name_list:
-        print(target)
-
-    #####################################################
-    #               Marking
-    #####################################################
-    doc = fitz.open("./bias.pdf")
-    new_doc = Replace(doc, target_name_list, "A")
-
-    #####################################################
-    #               Save File
-    #####################################################
-    if new_doc:
-        doc.save("output.pdf")
-    else:
-        print(("Words not found, do not save new file."))
-
-
-target_name_list = ["Andrew Tomkins",
-                    "Min Zhang", "William D. Heavlin",  "Google"]
-auto_processing(target_name_list)
