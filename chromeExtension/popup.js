@@ -59,7 +59,9 @@ function downloadCheckedLinks() {
       link = visibleLinks[i].replace(/\//g, 'SLASH')
       let uni = document.getElementById('universities').checked
       let res = document.getElementById('researchers').checked
-      var newURL = "http://quentinpiot.pythonanywhere.com/biasP/pdf?url="+link + "&universities=" + uni + "&researchers= "+res ;
+      let ema = document.getElementById('email').checked
+      
+      var newURL = "http://quentinpiot.pythonanywhere.com/biasP/pdf?url="+link + "&universities=" + uni + "&researchers="+res + "&email=" + ema;
       chrome.tabs.create({ url: newURL });
     }
   }

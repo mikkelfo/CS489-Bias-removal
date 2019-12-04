@@ -10,11 +10,13 @@
     width: 500px;
     text-align: center;
     font-size:medium;
+    background-color : #283138;
+    color : white;
   }
   #download1 {
-    background-color: #4CAF50; /* Green */
+    background-color: #d2d2d2; /* Green */
     border: none;
-    color: white;
+    color: black;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
@@ -22,19 +24,22 @@
     font-size: 16px;
   }
 </style>
-<h3>Bias Removal CS489 </h3>
+<h3 style = "background-color : #d2d2d2; height: 20px; padding: 20px 0; color : #313131" >Bias Removal CS489 </h3>
 
-<br/>
-<h4>Filters</h4>
+
+<h2>Filters</h2>
 <input hidden  type=checkbox id=regex>
 
-<div class="checkboxes" style = "text-align :left">
+<div class="checkboxes" style = "text-align :left; font-size : 18px">
 <input hidden type=text id=filter placeholder=Filter>
 <input type=checkbox id=researchers checked>
 <label for=researchers>Researchers</label>
 <br>
 <input type=checkbox id=universities checked>
 <label for=universities>Universities</label><br>
+
+<input type=checkbox id=email checked>
+<label for=email>Emails</label><br>
 <br>
 </div>
 <h4>PDF on this page</h4>
@@ -42,9 +47,10 @@
 <table id=links style = "text-align : left; font-size : small ">
   <tr>
     <th><input hidden type=checkbox checked id=toggle_all></th>
-    <th align=left>URL</th>
+    <th align=left style = "font-size : 16px ">URLs</th> <br>
   </tr>
 </table>
+<br> <br>
 <button id=download1 style : "width : 100%">Apply on this pdf</button>
 </body>
 </html>
