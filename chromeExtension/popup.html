@@ -25,9 +25,19 @@
 <h3>Bias Removal CS489 </h3>
 
 <br/>
-<input hidden type=text id=filter placeholder=Filter>
+<h4>Filters</h4>
 <input hidden  type=checkbox id=regex>
-<label hidden for=regex>Regex</label><br>
+
+<div class="checkboxes" style = "text-align :left">
+<input hidden type=text id=filter placeholder=Filter>
+<input type=checkbox id=researchers checked>
+<label for=researchers>Researchers</label>
+<br>
+<input type=checkbox id=universities checked>
+<label for=universities>Universities</label><br>
+<br>
+</div>
+<h4>PDF on this page</h4>
 <button hidden id=download0>Download All!</button>
 <table id=links style = "text-align : left; font-size : small ">
   <tr>
