@@ -3,8 +3,8 @@ Term project for the course CS489: Computer Ethics and Social Issues
 
 $ pip install fitz
 
-finalized branch,
+finalized branch,<br>
   This is the branch for cersored and entity. Please modify the PDF path inside the main.py
   
-color_tag brach, 
+color_tag brach, <br>
   This is the branch for hightligh bias text. Please modify the PDF path inside the main.py
