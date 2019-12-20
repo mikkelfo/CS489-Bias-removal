@@ -35,6 +35,6 @@ def main(file):
     #doc.save(file[:-4] + "_edited" + file[-4:])
 
 
-file = "test/mikk3.pdf"
+file = "test/bias.pdf"
 main(file)
 
