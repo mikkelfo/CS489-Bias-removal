@@ -26,7 +26,7 @@ pygobject==3.26.1
 PyMuPDF==1.16.8
 pyparsing==2.4.5
 pyparted==3.11.1
-PyPDF2==1.26.0
+PyPDF2==1.27.5
 python-apt==1.6.4
 python-dateutil==2.8.1
 python-xapp==1.6.0
